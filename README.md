@@ -1,8 +1,9 @@
-# Tugas Besar Struktur Data — Sistem Booking Lapangan — ArenaGo
+# ArenaGo
+**Tugas Besar Struktur Data — Sistem Booking Lapangan**
 
 > **Catatan (Rancangan Awal):** Seluruh struktur file, rancangan fungsi, pembagian fitur, dan log dalam dokumen ini masih bersifat **rancangan awal (*initial draft*)** dan **dapat berubah sewaktu-waktu** menyesuaikan perkembangan pengerjaan kode, kendala teknis di lapangan, maupun arahan dosen/asisten praktikum.
 
-Deskripsi singkat proyek, bahasa pemrograman yang digunakan (**C++**), serta rencana struktur data utama (**Multi Linked List / MLL** dan **Queue**).
+**ArenaGo** adalah aplikasi berbasis konsol yang dibangun menggunakan bahasa pemrograman **C++** untuk mengelola pemesanan (*booking*) lapangan olahraga. Sistem ini mengimplementasikan struktur data utama **Multi Linked List (MLL)** untuk menghubungkan data lapangan dengan daftar jadwal pemesanannya, serta **Queue** untuk mengelola antrean pemesanan.
 
 **Anggota Kelompok / NIM / Kelas:**
 
