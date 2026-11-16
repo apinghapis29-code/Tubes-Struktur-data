@@ -1,16 +1,17 @@
-# Tugas Besar Struktur Data — Sistem Booking Lapangan — ArenaGo
+# Tugas Besar Struktur Data — Sistem Booking Lapangan
 
 > **Catatan (Rancangan Awal):** Seluruh struktur file, rancangan fungsi, pembagian fitur, dan log dalam dokumen ini masih bersifat **rancangan awal (*initial draft*)** dan **dapat berubah sewaktu-waktu** menyesuaikan perkembangan pengerjaan kode, kendala teknis di lapangan, maupun arahan dosen/asisten praktikum.
 
 Deskripsi singkat proyek, bahasa pemrograman yang digunakan (**C++**), serta rencana struktur data utama (**Multi Linked List / MLL** dan **Queue**).
 
-* **Anggota Kelompok / NIM / Kelas:**
-  1. Hafis Saputra / 109082500087 / S1IF-13-01
-  2. Rafli Nurhidayat / 109082500152 / S1IF-13-04
-  3. Danar Prastika Okka Raharja / 109082600169 / S1IF-13-03
-  4. Denis Ramadhani / 109082500060 / S1IF-13-02
+**Anggota Kelompok / NIM / Kelas:**
 
-* **Rencana Struktur File *(dapat berubah)*:** `mll.h`, `mll.cpp`, `fitur.h`, `fitur.cpp`, `menu.h`, `menu.cpp`, `main.cpp`
+1. Hafis Saputra / 109082500087 / S1IF-13-01
+2. Rafli Nurhidayat / 109082500152 / S1IF-13-04
+3. Danar Prastika Okka Raharja / 109082600169 / S1IF-13-03
+4. Denis Ramadhani / 109082500060 / S1IF-13-02
+
+**Rencana Struktur File *(dapat berubah)*:** `mll.h`, `mll.cpp`, `fitur.h`, `fitur.cpp`, `menu.h`, `menu.cpp`, `main.cpp`
 
 ---
 
