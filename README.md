@@ -1,4 +1,4 @@
-# Tugas Besar Struktur Data — Sistem Booking Lapangan
+# Tugas Besar Struktur Data — Sistem Booking Lapangan - ArenaGo
 
 > **Catatan (Rancangan Awal):** Seluruh struktur file, rancangan fungsi, pembagian fitur, dan log dalam dokumen ini masih bersifat **rancangan awal (*initial draft*)** dan **dapat berubah sewaktu-waktu** menyesuaikan perkembangan pengerjaan kode, kendala teknis di lapangan, maupun arahan dosen/asisten praktikum.
 
