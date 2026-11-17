@@ -37,7 +37,7 @@ ArenaGo/
 Berikut adalah rancangan alur kerja sistem (*flowchart*) untuk proses pemesanan lapangan, penanganan jadwal bentrok melalui *Waiting List* (*Queue*), hingga konfirmasi booking:
 
 <p align="center">
-  <img src="pic/ALUR-SISTEM.png" alt="Alur Sistem ArenaGo" width="850">
+  <img src="assets/alur_sistem.png" alt="Alur Sistem ArenaGo" width="850">
 </p>
 
 > **Penjelasan Alur Revisi:**
