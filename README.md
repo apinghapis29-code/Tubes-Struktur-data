@@ -50,9 +50,9 @@ Berikut adalah rancangan alur kerja sistem (*flowchart*) untuk proses pemesanan 
 
 Daftar ini digunakan untuk memantau status pengerjaan setiap modul dan alur sistem:
 
-- [v] Perancangan awal struktur data (`mll.h` & `queue.h`)
-- [v] Implementasi operasi dasar MLL (`mll.cpp`: *create*, *insert*, *search*, *delete*)
-- [ ] Implementasi operasi dasar Queue untuk Waiting List (`queue.cpp`: *enqueue*, *dequeue*)
+- [x] Perancangan awal struktur data (`mll.h` & `queue.h`)
+- [x] Implementasi operasi dasar MLL (`mll.cpp`: *create*, *insert*, *search*, *delete*)
+- [x] Implementasi operasi dasar Queue untuk Waiting List (`queue.cpp`: *enqueue*, *dequeue*)
 - [ ] Fitur Pilih Lapangan & Input Tanggal/Jam
 - [ ] Fitur Validasi Ketersediaan Lapangan (Cek jadwal bentrok & opsi masuk *waiting list*)
 - [ ] Fitur Simpan Data Pelanggan & Konfirmasi Booking / Antrean Waiting List
@@ -66,11 +66,11 @@ Daftar ini digunakan untuk memantau status pengerjaan setiap modul dan alur sist
 
 Catatan setiap kali ada penyesuaian konsep, penambahan fungsi baru, perubahan struktur kode, atau pembaruan file.
 
-| Tanggal | PIC | File Terkait | Deskripsi Perubahan / Penambahan |
+| Tanggal | Nama | File Terkait | Deskripsi Perubahan / Penambahan |
 | :--- | :--- | :--- | :--- |
 | 16/11/2026 | Hafis Saputra | `mll.h` | Membuat rancangan awal `struct Lapangan` (Parent) dan `struct Booking` (Child). |
 | 16/11/2026 | Hafis Saputra | `mll.cpp` | Menambahkan fungsi `cekKetersediaan()` dan `simpanBooking()`. |
-| 16/11/2026 | Tim | `queue.h`, `queue.cpp`, `fitur.cpp` | **Revisi Alur:** Jika jadwal sudah terisi, booking tidak langsung ditolak melainkan ditawarkan masuk ke **Waiting List** menggunakan struktur data *Queue* (FIFO). |
+| 17/11/2026 | Tim | `queue.h`, `queue.cpp`, `fitur.cpp` | **Revisi Alur:** Jika jadwal sudah terisi, booking tidak langsung ditolak melainkan ditawarkan masuk ke **Waiting List** menggunakan struktur data *Queue* (FIFO). |
 | 16/11/2026 | Tim | `fitur.cpp`, `mll.cpp` | Menambahkan fungsi `cancelBooking()` yang otomatis memindahkan antrean terdepan (*dequeue*) dari *Waiting List* menjadi booking terkonfirmasi saat slot dibatalkan. |
 | *dd/mm/yyyy* | *Nama* | *Nama file* | *Tuliskan perubahan atau revisi rancangan di sini...* |
 
