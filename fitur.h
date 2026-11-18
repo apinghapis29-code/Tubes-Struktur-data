@@ -4,13 +4,13 @@
 #include "mll.h"
 #include "queue.h"
 
-// Fungsi pembantu untuk mengecek apakah jadwal lapangan bentrok
-bool cekJadwalBentrok(NodeLapangan* lapangan, string tanggal, int jamMulai, int durasi);
+// Fitur untuk input data lapangan baru
+void inputLapanganBaru(MLL &L);
 
-// Fitur utama pemesanan lapangan (mengikuti diagram alur MLL + Waiting List)
-bool prosesBooking(MLL &L, Queue &Q);
+// Fitur utama untuk memesan lapangan (MLL + Waiting List)
+void pesanLapangan(MLL &L, Queue &Q);
 
-// Fitur memproses antrean paling depan dari Waiting List masuk ke Booking
-void prosesAntreanBerikutnya(MLL &L, Queue *Q);
+// Fitut utama memproses antrean waiting list paling depan
+void prosesWaitingLint(MLL &L, Queue &Q);
 
 #endif
