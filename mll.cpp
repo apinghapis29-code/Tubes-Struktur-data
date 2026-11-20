@@ -1,216 +1,293 @@
-
 #include "mll.h"
+#include <iomanip>
 
-// Membuat MLL kosong
+// bikin MLL kosong
 void createMLL(MLL &L) {
     L.firstLapangan = NULL;
 }
 
-// Membuat node lapangan
-NodeLapangan* createNodeLapangan(Lapangan data) {
-    NodeLapangan* baru = new NodeLapangan;
+// cari lapangan berdasarkan kode
+NodeLapangan* cariLapangan(MLL L, string kodeLapangan) {
+    NodeLapangan* cek = L.firstLapangan;
+    while (cek != NULL) {
+        if (cek->info.kodeLapangan == kodeLapangan) {
+            return cek;
+        }
+        cek = cek->next;
+    }
+    return NULL;
+}
 
+// tambah lapangan (admin)
+bool tambahLapangan(MLL &L, Lapangan data) {
+    // cek dulu, kode jangan sampai dobel
+    if (cariLapangan(L, data.kodeLapangan) != NULL) {
+        cout << "KODE SUDAH TERPAKAI!!" << endl;
+        return false;
+    }
+
+    // bikin node baru
+    NodeLapangan* baru = new NodeLapangan;
     baru->info = data;
     baru->next = NULL;
     baru->firstBooking = NULL;
 
-    return baru;
-}
-
-// Membuat node booking
-NodeBooking* createNodeBooking(Booking data) {
-    NodeBooking* baru = new NodeBooking;
-
-    baru->info = data;
-    baru->next = NULL;
-
-    return baru;
-}
-
-// Menambahkan lapangan ke dalam MLL
-void tambahLapangan(MLL &L, Lapangan data) {
-    if (cariLapangan(L, data.kodeLapangan) != NULL) {
-        cout << "Kode lapangan sudah digunakan!" << endl;
-        return;
-    }
-
-    NodeLapangan* baru = createNodeLapangan(data);
-
+    // kalau list kosong, jadi node pertama
     if (L.firstLapangan == NULL) {
         L.firstLapangan = baru;
     } else {
-        NodeLapangan* bantu = L.firstLapangan;
-
-        while (bantu->next != NULL) {
-            bantu = bantu->next;
+        // kalau sudah ada, taruh di paling belakang
+        NodeLapangan* cek = L.firstLapangan;
+        while (cek->next != NULL) {
+            cek = cek->next;
         }
-
-        bantu->next = baru;
+        cek->next = baru;
     }
-
-    cout << "Lapangan berhasil ditambahkan!" << endl;
+    return true;
 }
 
-// Mencari lapangan berdasarkan kode
-NodeLapangan* cariLapangan(MLL L, string kodeLapangan) {
-    NodeLapangan* bantu = L.firstLapangan;
-
-    while (bantu != NULL) {
-        if (bantu->info.kodeLapangan == kodeLapangan) {
-            return bantu;
-        }
-
-        bantu = bantu->next;
+// hapus lapangan (admin)
+bool hapusLapangan(MLL &L, string kodeLapangan) {
+    if (L.firstLapangan == NULL) {
+        cout << "BELUM ADA LAPANGAN!!" << endl;
+        return false;
     }
 
-    return NULL;
+    // cari dulu lapangannya
+    NodeLapangan* hapus = cariLapangan(L, kodeLapangan);
+    if (hapus == NULL) {
+        cout << "LAPANGAN TIDAK DITEMUKAN!!" << endl;
+        return false;
+    }
+
+    // hapus semua booking di dalamnya dulu
+    NodeBooking* boking = hapus->firstBooking;
+    while (boking != NULL) {
+        NodeBooking* nextBooking = boking->next;
+        delete boking;
+        boking = nextBooking;
+    }
+
+    // lepas lapangan dari rantai
+    if (hapus == L.firstLapangan) {
+        // kalau lapangan pertama
+        L.firstLapangan = hapus->next;
+    } else {
+        // cari lapangan sebelumnya
+        NodeLapangan* sebelum = L.firstLapangan;
+        while (sebelum->next != hapus) {
+            sebelum = sebelum->next;
+        }
+        sebelum->next = hapus->next;
+    }
+
+    delete hapus;
+    cout << "LAPANGAN BERHASIL DIHAPUS!!" << endl;
+    return true;
 }
 
-// Menampilkan semua lapangan
+// tampilkan semua lapangan
 void tampilkanLapangan(MLL L) {
-    NodeLapangan* bantu = L.firstLapangan;
-
-    if (bantu == NULL) {
-        cout << "Belum ada data lapangan." << endl;
+    if (L.firstLapangan == NULL) {
+        cout << "BELUM ADA LAPANGAN!!" << endl;
         return;
     }
 
-    cout << "\n===== DAFTAR LAPANGAN =====" << endl;
+    cout << "\n========== DAFTAR LAPANGAN ==========" << endl;
+    cout << "+----------+----------------------+--------------+-----------------+" << endl;
+    cout << "| " << left << setw(8)  << "Kode"
+         << " | " << setw(20) << "Nama"
+         << " | " << setw(12) << "Jenis"
+         << " | " << setw(15) << "Harga/Jam"
+         << " |" << endl;
+    cout << "+----------+----------------------+--------------+-----------------+" << endl;
 
-    while (bantu != NULL) {
-        cout << "Kode Lapangan : "
-             << bantu->info.kodeLapangan << endl;
-
-        cout << "Nama Lapangan : "
-             << bantu->info.namaLapangan << endl;
-
-        cout << "Jenis Olahraga: "
-             << bantu->info.jenisOlahraga << endl;
-
-        cout << "Harga Per Jam : Rp"
-             << bantu->info.hargaPerJam << endl;
-
-        cout << "--------------------------" << endl;
-
-        bantu = bantu->next;
+    NodeLapangan* cek = L.firstLapangan;
+    while (cek != NULL) {
+        cout << "| " << left << setw(8)  << cek->info.kodeLapangan
+             << " | " << setw(20) << cek->info.namaLapangan
+             << " | " << setw(12) << cek->info.jenisOlahraga
+             << " | " << setw(15) << ("Rp" + to_string((int)cek->info.hargaPerJam))
+             << " |" << endl;
+        cek = cek->next;
     }
+    cout << "+----------+----------------------+--------------+-----------------+" << endl;
 }
 
-// Menambahkan booking ke lapangan tertentu
-void tambahBooking(MLL &L, string kodeLapangan, Booking data) {
+// tambah booking (user)
+bool tambahBooking(MLL &L, string kodeLapangan, Booking data) {
+    // cek lapangan ada atau tidak
     NodeLapangan* lapangan = cariLapangan(L, kodeLapangan);
-
     if (lapangan == NULL) {
-        cout << "Lapangan tidak ditemukan!" << endl;
-        return;
+        cout << "LAPANGAN TIDAK ADA!!" << endl;
+        return false;
     }
 
-    if (data.durasi <= 0 || data.jamMulai < 0 ||
-        data.jamMulai >= 1440) {
-        cout << "Jam mulai atau durasi tidak valid!" << endl;
-        return;
-    }
-
-    if (lapangan->info.hargaPerJam < 0) {
-        cout << "Harga lapangan tidak valid!" << endl;
-        return;
-    }
-
-    // Memeriksa apakah jadwal booking bertabrakan
-    NodeBooking* cek = lapangan->firstBooking;
-
+    // cek bentrok jadwal
     int jamSelesai = data.jamMulai + (data.durasi * 60);
-
+    NodeBooking* cek = lapangan->firstBooking;
     while (cek != NULL) {
         if (cek->info.tanggal == data.tanggal) {
             int mulaiLama = cek->info.jamMulai;
-            int selesaiLama =
-                mulaiLama + (cek->info.durasi * 60);
-
-            if (data.jamMulai < selesaiLama &&
-                jamSelesai > mulaiLama) {
-
-                cout << "Jadwal lapangan sudah terisi!"
-                     << endl;
-                return;
+            int selesaiLama = mulaiLama + (cek->info.durasi * 60);
+            if (data.jamMulai < selesaiLama && jamSelesai > mulaiLama) {
+                cout << "JADWAL BENTROK!!" << endl;
+                return false;
             }
         }
-
         cek = cek->next;
     }
 
-    // Menghitung total harga booking
-    data.totalHarga =
-        lapangan->info.hargaPerJam * data.durasi;
+    // hitung total harga
+    data.totalHarga = lapangan->info.hargaPerJam * data.durasi;
 
-    NodeBooking* baru = createNodeBooking(data);
+    // bikin node booking baru
+    NodeBooking* baru = new NodeBooking;
+    baru->info = data;
+    baru->next = NULL;
 
-    // Memasukkan booking ke daftar child
+    // taruh di akhir daftar booking
     if (lapangan->firstBooking == NULL) {
         lapangan->firstBooking = baru;
     } else {
         NodeBooking* bantu = lapangan->firstBooking;
-
         while (bantu->next != NULL) {
             bantu = bantu->next;
         }
-
         bantu->next = baru;
     }
-
-    cout << "Booking berhasil ditambahkan!" << endl;
+    return true;
 }
 
-// Menampilkan booking dari lapangan tertentu
+// hapus booking (batal)
+bool hapusBooking(MLL &L, string namaPelanggan, string kodeLapangan, string tanggal, int jamMulai) {
+    NodeLapangan* cek = cariLapangan(L, kodeLapangan);
+    if (cek == NULL) {
+        cout << "LAPANGAN TIDAK ADA!!" << endl;
+        return false;
+    }
+
+    // cari bookingnya
+    NodeBooking* hapus = cek->firstBooking;
+    NodeBooking* sebelum = NULL;
+    bool ketemu = false;
+
+    while (hapus != NULL) {
+        if (hapus->info.namaPelanggan == namaPelanggan &&
+            hapus->info.tanggal == tanggal &&
+            hapus->info.jamMulai == jamMulai) {
+            ketemu = true;
+            break;
+        }
+        sebelum = hapus;
+        hapus = hapus->next;
+    }
+
+    if (!ketemu) {
+        cout << "BOOKING TIDAK DITEMUKAN!!" << endl;
+        return false;
+    }
+
+    // lepas dari rantai
+    if (sebelum == NULL) {
+        cek->firstBooking = hapus->next;
+    } else {
+        sebelum->next = hapus->next;
+    }
+
+    delete hapus;
+    cout << "BOOKING BERHASIL DIBATALKAN!!" << endl;
+    return true;
+}
+
+// cari booking
+NodeBooking* cariBooking(MLL L, string kodeLapangan, string namaPelanggan, string tanggal, int jamMulai) {
+    NodeLapangan* lapangan = cariLapangan(L, kodeLapangan);
+    if (lapangan == NULL) {
+        return NULL;
+    }
+
+    NodeBooking* cek = lapangan->firstBooking;
+    while (cek != NULL) {
+        if (cek->info.namaPelanggan == namaPelanggan &&
+            cek->info.tanggal == tanggal &&
+            cek->info.jamMulai == jamMulai) {
+            return cek;
+        }
+        cek = cek->next;
+    }
+    return NULL;
+}
+
+// cek booking (tampil detail kalau ada)
+bool cekBooking(MLL L, string namaPelanggan, string kodeLapangan, string tanggal, int jamMulai) {
+    NodeBooking* hasil = cariBooking(L, kodeLapangan, namaPelanggan, tanggal, jamMulai);
+
+    if (hasil == NULL) {
+        cout << "BOOKING TIDAK DITEMUKAN!!" << endl;
+        return false;
+    }
+
+    int jam = hasil->info.jamMulai / 60;
+    int menit = hasil->info.jamMulai % 60;
+
+    cout << "\n=== BOOKING DITEMUKAN ===" << endl;
+    cout << "Kode Lapangan  : " << kodeLapangan << endl;
+    cout << "Nama Pelanggan : " << hasil->info.namaPelanggan << endl;
+    cout << "Tanggal        : " << hasil->info.tanggal << endl;
+    cout << "Jam Mulai      : ";
+    if (jam < 10) cout << "0";
+    cout << jam << ":";
+    if (menit < 10) cout << "0";
+    cout << menit << endl;
+    cout << "Durasi         : " << hasil->info.durasi << " jam" << endl;
+    cout << "Total Harga    : Rp" << (int)hasil->info.totalHarga << endl;
+
+    return true;
+}
+
+// tampilkan semua booking di satu lapangan
 void tampilkanBooking(MLL L, string kodeLapangan) {
     NodeLapangan* lapangan = cariLapangan(L, kodeLapangan);
-
     if (lapangan == NULL) {
-        cout << "Lapangan tidak ditemukan!" << endl;
+        cout << "LAPANGAN TIDAK ADA!!" << endl;
         return;
     }
 
-    NodeBooking* bantu = lapangan->firstBooking;
-
-    if (bantu == NULL) {
-        cout << "Belum ada booking untuk lapangan ini."
-             << endl;
+    if (lapangan->firstBooking == NULL) {
+        cout << "BELUM ADA BOOKING!!" << endl;
         return;
     }
 
-    cout << "\n===== DAFTAR BOOKING =====" << endl;
-    cout << "Nama Lapangan: "
-         << lapangan->info.namaLapangan << endl;
+    cout << "\n========== BOOKING " << lapangan->info.namaLapangan << " ==========" << endl;
+    cout << "+--------------------+--------------+----------+----------+-----------------+" << endl;
+    cout << "| " << left << setw(18) << "Nama"
+         << " | " << setw(12) << "Tanggal"
+         << " | " << setw(8)  << "Jam"
+         << " | " << setw(8)  << "Durasi"
+         << " | " << setw(15) << "Total"
+         << " |" << endl;
+    cout << "+--------------------+--------------+----------+----------+-----------------+" << endl;
 
-    while (bantu != NULL) {
-        int jam = bantu->info.jamMulai / 60;
-        int menit = bantu->info.jamMulai % 60;
+    NodeBooking* cek = lapangan->firstBooking;
+    while (cek != NULL) {
+        int jam = cek->info.jamMulai / 60;
+        int menit = cek->info.jamMulai % 60;
 
-        cout << "\nID Booking     : "
-             << bantu->info.idBooking << endl;
+        // susun dulu jadi string biar setw-nya tepat
+        string jamStr = (jam < 10 ? "0" : "") + to_string(jam) + ":" +
+                        (menit < 10 ? "0" : "") + to_string(menit);
+        string durasiStr = to_string(cek->info.durasi) + " jam";
+        string totalStr = "Rp" + to_string((int)cek->info.totalHarga);
 
-        cout << "Nama Pelanggan : "
-             << bantu->info.namaPelanggan << endl;
+        cout << "| " << left << setw(18) << cek->info.namaPelanggan
+             << " | " << setw(12) << cek->info.tanggal
+             << " | " << setw(8)  << jamStr
+             << " | " << setw(8)  << durasiStr
+             << " | " << setw(15) << totalStr
+             << " |" << endl;
 
-        cout << "Tanggal        : "
-             << bantu->info.tanggal << endl;
-
-        cout << "Jam Mulai      : ";
-
-        if (jam < 10) cout << "0";
-        cout << jam << ":";
-
-        if (menit < 10) cout << "0";
-        cout << menit << endl;
-
-        cout << "Durasi         : "
-             << bantu->info.durasi << " jam" << endl;
-
-        cout << "Total Harga    : Rp"
-             << bantu->info.totalHarga << endl;
-
-        cout << "--------------------------" << endl;
-
-        bantu = bantu->next;
+        cek = cek->next;
     }
+    cout << "+--------------------+--------------+----------+----------+-----------------+" << endl;
 }

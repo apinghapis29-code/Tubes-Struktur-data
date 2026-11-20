@@ -1,0 +1,3 @@
+LAPANGAN|L01|Basket A|Basket|80000
+LAPANGAN|L02|Futsal A|Futsal|60000
+LAPANGAN|L03|Badminton A|Badminton|50000

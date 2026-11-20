@@ -1,4 +1,3 @@
-
 #ifndef MLL_H
 #define MLL_H
 
@@ -6,7 +5,7 @@
 #include <string>
 using namespace std;
 
-// Data lapangan sebagai Parent
+// data lapangan
 struct Lapangan {
     string kodeLapangan;
     string namaLapangan;
@@ -14,26 +13,20 @@ struct Lapangan {
     double hargaPerJam;
 };
 
-// Data booking sebagai Child
+// data booking
 struct Booking {
-    string idBooking;
     string namaPelanggan;
     string tanggal;
-
-    // Jam menggunakan menit agar mudah menghitung jadwal
     int jamMulai;
     int durasi;
-
     double totalHarga;
 };
 
-// Node untuk menyimpan data Booking
 struct NodeBooking {
     Booking info;
     NodeBooking* next;
 };
 
-// Node untuk menyimpan data Lapangan
 struct NodeLapangan {
     Lapangan info;
     NodeLapangan* next;
@@ -44,19 +37,20 @@ struct MLL {
     NodeLapangan* firstLapangan;
 };
 
-// Fungsi dasar MLL
+// dasar
 void createMLL(MLL &L);
 
-NodeLapangan* createNodeLapangan(Lapangan data);
-NodeBooking* createNodeBooking(Booking data);
-
-// Fungsi untuk mengelola lapangan
-void tambahLapangan(MLL &L, Lapangan data);
+// admin
+bool tambahLapangan(MLL &L, Lapangan data);
+bool hapusLapangan(MLL &L, string kodeLapangan);
 NodeLapangan* cariLapangan(MLL L, string kodeLapangan);
 void tampilkanLapangan(MLL L);
 
-// Fungsi untuk mengelola booking
-void tambahBooking(MLL &L, string kodeLapangan, Booking data);
+// user
+bool tambahBooking(MLL &L, string kodeLapangan, Booking data);
+bool hapusBooking(MLL &L, string namaPelanggan, string kodeLapangan, string tanggal, int jamMulai);
+NodeBooking* cariBooking(MLL L, string kodeLapangan, string namaPelanggan, string tanggal, int jamMulai);
+bool cekBooking(MLL L, string namaPelanggan, string kodeLapangan, string tanggal, int jamMulai);
 void tampilkanBooking(MLL L, string kodeLapangan);
 
 #endif

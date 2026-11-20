@@ -1,16 +1,21 @@
 #ifndef FITUR_H
 #define FITUR_H
-
 #include "mll.h"
 #include "queue.h"
 
-// Fitur untuk input data lapangan baru
-void inputLapanganBaru(MLL &L);
+// admin
+void lapanganBaru(MLL &L);
+void hapusLapanganMenu(MLL &L);
+void prosesWaitingList(MLL &L, Queue &Q);
 
-// Fitur utama untuk memesan lapangan (MLL + Waiting List)
+// user
 void pesanLapangan(MLL &L, Queue &Q);
+void cekBookingMenu(MLL L);
+void batalBooking(MLL &L);
+void batalWaitingListMenu(Queue &Q);
 
-// Fitut utama memproses antrean waiting list paling depan
-void prosesWaitingLint(MLL &L, Queue &Q);
+// simpan data
+void simpanData(MLL L, Queue Q);
+void muatData(MLL &L, Queue &Q);
 
 #endif

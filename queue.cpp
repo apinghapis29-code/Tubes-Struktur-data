@@ -1,95 +1,149 @@
 #include "queue.h"
+#include <iomanip>
 
-// Membuat queue kosong
+// bikin queue kosong
 void createQueue(Queue &Q) {
     Q.head = NULL;
     Q.tail = NULL;
 }
 
-// Mengecek apakah antrean kosong
+// cek queue kosong
 bool isEmpty(Queue Q) {
-    return (Q.head == NULL);
+    return Q.head == NULL;
 }
 
-// Membuat gerbang antrean baru
-NodeQueue* createNodeQueue(string KodeLapangan, Booking data) {
+// tambah antrean di belakang
+void enqueue(Queue &Q, string kodeLapangan, Booking data) {
     NodeQueue* baru = new NodeQueue;
-    baru->KodeLapangan = KodeLapangan;
+    baru->kodeLapangan = kodeLapangan;
     baru->info = data;
     baru->next = NULL;
-    return baru;
-}
-
-// Masukkan pelanggan ke dalam antrean
-void enqueue(Queue &Q, string KodeLapangan, Booking data) {
-    NodeQueue* baru = createNodeQueue(KodeLapangan, data);
 
     if (isEmpty(Q)) {
-        //jika kosong menuju ke antrean baru
+        // antrean kosong
         Q.head = baru;
         Q.tail = baru;
     } else {
-        //jika sudah ada sambungkan ke belakang tail lalu geser tail
+        // sambung di belakang
         Q.tail->next = baru;
         Q.tail = baru;
     }
 
-    cout << "Berhasil ditambahkan ke dalam waiting list" << endl;
+    cout << "BERHASIL MASUK WAITING LIST!!" << endl;
 }
 
-// Mengeluarkan pelanggan paling depan dari antrean
-void dequeue(Queue &Q, string &KodeLapangan, Booking &data) {
+// keluarkan antrean paling depan
+void dequeue(Queue &Q, string &kodeLapangan, Booking &data) {
     if (isEmpty(Q)) {
-        cout << "Waiting List kosong" << endl;
+        cout << "WAITING LIST KOSONG!!" << endl;
         return;
     }
 
     NodeQueue* hapus = Q.head;
-    KodeLapangan = hapus->KodeLapangan;
+    kodeLapangan = hapus->kodeLapangan;
     data = hapus->info;
 
     if (Q.head == Q.tail) {
-        // Jika hanya ada 1 orang di antrean, setelah keluar antrean jadi kosong
+        // cuma 1 node
         Q.head = NULL;
         Q.tail = NULL;
     } else {
-        // Geser head ke orang berikutnya
         Q.head = Q.head->next;
     }
 
-    delete hapus; // Menghapus memori gerbong lama agar tidak bocor
+    delete hapus;
 }
 
-// Menampilkan semua data waiting list
-void tampilkanQueue(Queue Q) {
+// batal waiting list (user berubah pikiran)
+bool batalWaitingList(Queue &Q, string kodeLapangan, string namaPelanggan) {
     if (isEmpty(Q)) {
-        cout << "Antrean kosong" << endl;
+        cout << "WAITING LIST KOSONG!!" << endl;
+        return false;
+    }
+
+    // cari dulu node-nya
+    NodeQueue* hapus = Q.head;
+    NodeQueue* sebelum = NULL;
+    bool ketemu = false;
+
+    while (hapus != NULL) {
+        if (hapus->info.namaPelanggan == namaPelanggan &&
+            hapus->kodeLapangan == kodeLapangan) {
+            ketemu = true;
+            break;
+        }
+        sebelum = hapus;
+        hapus = hapus->next;
+    }
+
+    if (!ketemu) {
+        cout << "ANTREAN TIDAK DITEMUKAN!!" << endl;
+        return false;
+    }
+
+    // lepas dari rantai (queue ada head & tail, jadi ada 4 kasus)
+    if (sebelum == NULL) {
+        // node pertama
+        Q.head = hapus->next;
+        if (Q.head == NULL) {
+            Q.tail = NULL;
+        }
+    } else if (hapus == Q.tail) {
+        // node terakhir
+        sebelum->next = NULL;
+        Q.tail = sebelum;
+    } else {
+        // node tengah
+        sebelum->next = hapus->next;
+    }
+
+    delete hapus;
+    cout << "ANTREAN BERHASIL DIBATALKAN!!" << endl;
+    return true;
+}
+
+// tampilkan semua antrean
+void tampilkanAntrean(Queue Q) {
+    if (isEmpty(Q)) {
+        cout << "WAITING LIST KOSONG!!" << endl;
         return;
     }
 
-    NodeQueue* bantu = Q.head;
+    cout << "\n========== DAFTAR WAITING LIST ==========" << endl;
+    cout << "+------+--------------------+----------+--------------+----------+----------+-----------------+" << endl;
+    cout << "| " << left << setw(4)  << "No"
+         << " | " << setw(18) << "Nama"
+         << " | " << setw(8)  << "Kode"
+         << " | " << setw(12) << "Tanggal"
+         << " | " << setw(8)  << "Jam"
+         << " | " << setw(8)  << "Durasi"
+         << " | " << setw(15) << "Total"
+         << " |" << endl;
+    cout << "+------+--------------------+----------+--------------+----------+----------+-----------------+" << endl;
+
+    NodeQueue* cek = Q.head;
     int nomor = 1;
 
-    cout << "\n===== DAFTAR WAITING LIST =====" << endl;
-    while (bantu != NULL) {
-        int jam = bantu->info.jamMulai / 60;
-        int menit = bantu->info.jamMulai % 60;
+    while (cek != NULL) {
+        int jam = cek->info.jamMulai / 60;
+        int menit = cek->info.jamMulai % 60;
 
-        cout << "Antrean ke-" << nomor << endl;
-        cout << "Kode Lapangan  : " << bantu->KodeLapangan << endl;
-        cout << "ID Booking     : " << bantu->info.idBooking << endl;
-        cout << "Nama Pelanggan : " << bantu->info.namaPelanggan << endl;
-        cout << "Tanggal        : " << bantu->info.tanggal << endl;
-        cout << "Jam Mulai      : ";
-        if (jam < 10) cout << "0";
-        cout << jam << ":";
-        if (menit < 10) cout << "0";
-        cout << menit << endl;
-        cout << "Durasi         : " << bantu->info.durasi << " jam" << endl;
-        cout << "-------------------------------" << endl;
+        string jamStr = (jam < 10 ? "0" : "") + to_string(jam) + ":" +
+                        (menit < 10 ? "0" : "") + to_string(menit);
+        string durasiStr = to_string(cek->info.durasi) + " jam";
+        string totalStr = "Rp" + to_string((int)cek->info.totalHarga);
 
-        bantu = bantu->next;
+        cout << "| " << left << setw(4)  << nomor
+             << " | " << setw(18) << cek->info.namaPelanggan
+             << " | " << setw(8)  << cek->kodeLapangan
+             << " | " << setw(12) << cek->info.tanggal
+             << " | " << setw(8)  << jamStr
+             << " | " << setw(8)  << durasiStr
+             << " | " << setw(15) << totalStr
+             << " |" << endl;
+
+        cek = cek->next;
         nomor++;
     }
-    
+    cout << "+------+--------------------+----------+--------------+----------+----------+-----------------+" << endl;
 }
