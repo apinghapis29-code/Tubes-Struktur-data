@@ -40,7 +40,6 @@ struct NodeLapangan {
     NodeBooking* firstBooking;
 };
 
-// Struktur utama Multi Linked List
 struct MLL {
     NodeLapangan* firstLapangan;
 };
