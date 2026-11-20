@@ -94,8 +94,8 @@ Catatan setiap kali ada penyesuaian konsep, penambahan fungsi baru, perubahan st
 | :--- | :--- | :--- | :--- |
 | 16/11/2026 | Hafis Saputra | `mll.h` | Membuat rancangan awal `struct Lapangan` (Parent) dan `struct Booking` (Child). |
 | 16/11/2026 | Hafis Saputra | `mll.cpp` | Menambahkan fungsi `cekKetersediaan()` dan `simpanBooking()`. |
-| 17/11/2026 | Tim | `queue.h`, `queue.cpp`, `fitur.cpp` | **Revisi Alur:** Jika jadwal sudah terisi, booking tidak langsung ditolak melainkan ditawarkan masuk ke **Waiting List** menggunakan struktur data *Queue* (FIFO). |
-| 18/11/2026 | Tim | `fitur.cpp`, `mll.cpp` | Menambahkan fungsi `cancelBooking()` yang otomatis memindahkan antrean terdepan (*dequeue*) dari *Waiting List* menjadi booking terkonfirmasi saat slot dibatalkan. |
+| 17/11/2026 | Danar Prastika O.R. | `queue.h`, `queue.cpp`, `fitur.cpp` | **Revisi Alur:** Jika jadwal sudah terisi, booking tidak langsung ditolak melainkan ditawarkan masuk ke **Waiting List** menggunakan struktur data *Queue* (FIFO). |
+| 18/11/2026 | Danar Prastika O.R. | `fitur.cpp`, `mll.cpp` | Menambahkan fungsi `cancelBooking()` yang otomatis memindahkan antrean terdepan (*dequeue*) dari *Waiting List* menjadi booking terkonfirmasi saat slot dibatalkan. |
 | 18/11/2026 | Danar Prastika O.R. | `menu.h`, `menu.cpp` | Membuat menu 3 level: `menuUtama` (pilih role), `menuAdmin`, `menuUser`. Menambahkan fitur **Login Admin** dengan batas 3 kali percobaan (username: `admin`, password: `admin123`). |
 | 18/11/2026 | Danar Prastika O.R. | `fitur.cpp`, `fitur.h` | Implementasi fungsi `lapanganBaru`, `hapusLapanganMenu`, `pesanLapangan`, `cekBookingMenu`, `batalBooking`, `batalWaitingListMenu`, `prosesWaitingList`. Melengkapi fitur CRUD lapangan (admin) dan alur booking + waiting list (user). |
 | 19/11/2026 | Danar Prastika O.R. | `mll.cpp`, `queue.cpp` | Memperbaiki tampilan daftar lapangan, booking, dan antrean dengan border tabel ASCII (`+---+`) dan `setw` agar rapi. Memperbaiki format harga `Rp1e+06` → `Rp1000000` dengan cast `(int)`. |
