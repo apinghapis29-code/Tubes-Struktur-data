@@ -54,7 +54,7 @@ Bagian ini mencatat masukan dan tugas tambahan yang diberikan dosen saat bimbing
 
 | No | Tanggal | Catatan dari Dosen | Status |
 | :--- | :--- | :--- | :--- |
-| 1 | 21/11/2026 | Pada daftar booking, perlu ditambahkan keterangan **status** — misalnya kalau jadwalnya sedang berjalan, tampil "Sedang Berlangsung". Jadi user bisa tahu booking mana yang sedang aktif. | **Belum** |
+| 1 | 21/11/2026 | Pada daftar booking, perlu ditambahkan keterangan **status** — misalnya kalau jadwalnya sedang berjalan, tampil "Sedang Berlangsung". Jadi user bisa tahu booking mana yang sedang aktif. | **Selesai** |
 | 2 | | | |
 | 3 | | | |
 
@@ -82,7 +82,7 @@ Daftar ini digunakan untuk memantau status pengerjaan setiap modul dan alur sist
 - [x] *Tambahan:* Fitur Hapus Booking & Batal Waiting List
 - [x] *Tambahan:* Fitur Cek Booking & Lihat Semua Booking
 - [x] *Tambahan:* Persistensi Data ke File (`data.txt`)
-- [ ] *Tambahan:* Fitur Status Booking Dinamis ("Sedang Berlangsung") — **menunggu revisi dosen**
+- [x] *Tambahan:* Fitur Status Booking Dinamis ("Sedang Berlangsung")
 
 ---
 
@@ -103,6 +103,7 @@ Catatan setiap kali ada penyesuaian konsep, penambahan fungsi baru, perubahan st
 | 20/11/2026 | Danar Prastika O.R. | `fitur.cpp`, `fitur.h`, `main.cpp` | Menambahkan **fitur persistensi** ke `data.txt` (simpan & muat lapangan, booking, dan waiting list). Menggunakan separator `\|` agar nama dengan spasi tidak merusak file. |
 | 20/11/2026 | Danar Prastika O.R. | `menu.cpp` | Menambahkan batas percobaan login admin (3 kali), dengan hitung mundur sisa percobaan dan pesan penolakan jika gagal. |
 | 21/11/2026 | Danar Prastika O.R. | `mll.cpp`, `fitur.cpp` | Memisahkan *concern*: pesan konfirmasi (`LAPANGAN BERHASIL DITAMBAHKAN`, `BOOKING BERHASIL`) dipindah dari fungsi inti ke fungsi menu, agar saat program memuat data dari file tidak muncul *noise* di layar. |
+| 22/11/2026 | Rafli Nurhidayat | `mll.h`, `mll.cpp` | **Revisi Dosen:** Menambahkan fungsi `statusBooking()` yang membandingkan tanggal & jam booking dengan waktu sekarang (`<ctime>`). Status: `Akan Datang`, `Sedang Berlangsung`, atau `Selesai`. Ditampilkan sebagai kolom baru di `tampilkanBooking()` dan di detail `cekBooking()`. Status dihitung saat ditampilkan, tidak disimpan ke `data.txt`. |
 
 ---
 
@@ -154,4 +155,4 @@ Catatan hasil uji coba skenario input untuk memastikan logika percabangan berjal
 | 15 | Validasi input tidak valid | Jam 25 / durasi 0 / durasi -1 | `INPUT TIDAK VALID!!`, booking ditolak | Sesuai harapan | **Pass** |
 | 16 | Persistensi — simpan & muat | Tambah 2 lapangan + 1 booking + 1 antrean → keluar → jalankan lagi | Semua data muncul kembali saat program dibuka ulang | Sesuai harapan | **Pass** |
 | 17 | Persistensi — nama dengan spasi | Tambah lapangan `Futsal A` (pakai spasi), keluar, jalankan ulang | Nama lapangan tetap `Futsal A`, harga tidak jadi 0 | Sesuai harapan | **Pass** |
-| 18 | Status booking dinamis — "Sedang Berlangsung" | Booking hari ini jam 14:00, durasi 2 jam, dibuka jam 15:00 | Status tampil `Sedang Berlangsung` di kolom baru | — | **Pending** |
+| 18 | Status booking dinamis — "Sedang Berlangsung" | Booking hari ini jam 14:00, durasi 2 jam, dibuka jam 15:00 | Status tampil `Sedang Berlangsung` di kolom baru | Sesuai harapan (booking kemarin `Selesai`, besok `Akan Datang`) | **Pass** |

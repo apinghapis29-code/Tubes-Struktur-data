@@ -52,5 +52,6 @@ bool hapusBooking(MLL &L, string namaPelanggan, string kodeLapangan, string tang
 NodeBooking* cariBooking(MLL L, string kodeLapangan, string namaPelanggan, string tanggal, int jamMulai);
 bool cekBooking(MLL L, string namaPelanggan, string kodeLapangan, string tanggal, int jamMulai);
 void tampilkanBooking(MLL L, string kodeLapangan);
+string statusBooking(Booking data);
 
 #endif

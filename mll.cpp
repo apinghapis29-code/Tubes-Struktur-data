@@ -1,5 +1,27 @@
 #include "mll.h"
 #include <iomanip>
+#include <ctime>
+
+// status booking dibanding waktu sekarang (tanggal format YYYY-MM-DD)
+string statusBooking(Booking data) {
+    time_t sekarang = time(NULL);
+    tm* waktu = localtime(&sekarang);
+
+    char buf[11];
+    strftime(buf, sizeof(buf), "%Y-%m-%d", waktu);
+    string hariIni = buf;
+    int menitSekarang = waktu->tm_hour * 60 + waktu->tm_min;
+    int jamSelesai = data.jamMulai + (data.durasi * 60);
+
+    // format YYYY-MM-DD bisa dibandingkan langsung sebagai string
+    if (data.tanggal < hariIni) return "Selesai";
+    if (data.tanggal > hariIni) return "Akan Datang";
+
+    // tanggalnya hari ini, cek jamnya
+    if (menitSekarang < data.jamMulai) return "Akan Datang";
+    if (menitSekarang < jamSelesai) return "Sedang Berlangsung";
+    return "Selesai";
+}
 
 // bikin MLL kosong
 void createMLL(MLL &L) {
@@ -242,6 +264,7 @@ bool cekBooking(MLL L, string namaPelanggan, string kodeLapangan, string tanggal
     cout << menit << endl;
     cout << "Durasi         : " << hasil->info.durasi << " jam" << endl;
     cout << "Total Harga    : Rp" << (int)hasil->info.totalHarga << endl;
+    cout << "Status         : " << statusBooking(hasil->info) << endl;
 
     return true;
 }
@@ -260,14 +283,15 @@ void tampilkanBooking(MLL L, string kodeLapangan) {
     }
 
     cout << "\n========== BOOKING " << lapangan->info.namaLapangan << " ==========" << endl;
-    cout << "+--------------------+--------------+----------+----------+-----------------+" << endl;
+    cout << "+--------------------+--------------+----------+----------+-----------------+--------------------+" << endl;
     cout << "| " << left << setw(18) << "Nama"
          << " | " << setw(12) << "Tanggal"
          << " | " << setw(8)  << "Jam"
          << " | " << setw(8)  << "Durasi"
          << " | " << setw(15) << "Total"
+         << " | " << setw(18) << "Status"
          << " |" << endl;
-    cout << "+--------------------+--------------+----------+----------+-----------------+" << endl;
+    cout << "+--------------------+--------------+----------+----------+-----------------+--------------------+" << endl;
 
     NodeBooking* cek = lapangan->firstBooking;
     while (cek != NULL) {
@@ -285,9 +309,10 @@ void tampilkanBooking(MLL L, string kodeLapangan) {
              << " | " << setw(8)  << jamStr
              << " | " << setw(8)  << durasiStr
              << " | " << setw(15) << totalStr
+             << " | " << setw(18) << statusBooking(cek->info)
              << " |" << endl;
 
         cek = cek->next;
     }
-    cout << "+--------------------+--------------+----------+----------+-----------------+" << endl;
+    cout << "+--------------------+--------------+----------+----------+-----------------+--------------------+" << endl;
 }
